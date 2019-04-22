@@ -17,6 +17,14 @@ class InstanceProvider:
         """
         return self.fn()
 
+    @staticmethod
+    def function(function=None):
+        return InstanceProvider(function)
+    
+    @staticmethod
+    def growing(size=10, growth_rate=0.1):
+        return GrowingNumberSequenceProvider(size=size, growth_rate=growth_rate)
+
 
 class GrowingNumberSequenceProvider(InstanceProvider):
 
