@@ -1,23 +1,36 @@
 from almetro.instance import InstanceProvider
-from matplotlib import pyplot as plt 
-import numpy as np
+from matplotlib import pyplot as plt
+import almetro.complexity as complexity
 import timeit
+import copy
 
 
 class Metro:
-    __stats_dtype = [('n', 'i8',), ('cost', 'f8',)]
-    def __init__(self):
+    def __init__(self, complexity=complexity.n):
+        self.__complexity = complexity
         self.__stats = {}
+        self.__reference_stats = {}
 
     def register(self, instance, timestats):
-        self.__stats[len(instance)] = min(timestats)
+        instance_size = len(instance)
+        self.__stats[instance_size] = min(timestats)
+        self.__reference_stats[instance_size] = int(self.__complexity.fn()(instance_size))
 
     def stats(self):
-        return np.array(list(self.__stats.items()), dtype=self.__stats_dtype)
+        return copy.deepcopy(self.__stats)
 
-    def plot(self):       
-        s = self.stats() 
-        return plt.plot(s['n'], s['cost'])
+    def reference_stats(self):
+        return copy.deepcopy(self.__reference_stats)        
+
+    def plot(self):     
+        plt.title('Complexity algorithm comparison')
+        plt.ylabel('time')
+        plt.xlabel('size')
+        plt.grid(True)          
+        plt.legend()
+        plt.plot(self.reference_stats().keys(), self.reference_stats().items(), label=self.__complexity.text)        
+        return plt.plot(self.stats().keys(), self.stats().items(), label='your algorithm')
+
 
 
 
@@ -27,8 +40,8 @@ class Al:
         self.repeat = repeat
         self.instance_provider = instance_provider
 
-    def metro(self, algorithm):
-        metro = Metro()
+    def metro(self, algorithm, complexity=complexity.n):
+        metro = Metro(complexity=complexity)
         for _ in range(self.iterations):
             instance = self.instance_provider.new()
 

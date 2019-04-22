@@ -1,4 +1,3 @@
-import numpy as np
 import random
 
 class InstanceProvider:
@@ -39,11 +38,11 @@ class GrowingNumberSequenceProvider(InstanceProvider):
         self.growth = size * growth_rate
 
     def new(self):
-        """Provides a new instance of number sequence as a tuple.
+        """Provides a new int list as an instance.
 
-        :returns: one number sequence. For example: (0.1, 0.3)
-        :rtype: tuple(float)
+        :returns: one int list. For example: [1, 3]
+        :rtype: list(int)
         """
         length = int(self.size + (self.iterations * self.growth))
         self.iterations += 1        
-        return np.array(random.sample(range(length * 2), length))
+        return random.sample(range(length * 2), length)
