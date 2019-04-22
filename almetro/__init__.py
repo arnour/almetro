@@ -1,4 +1,4 @@
-from almetro.instance import Instance
+from almetro.instance import InstanceProvider
 from matplotlib import pyplot as plt 
 import numpy as np
 import timeit
@@ -22,7 +22,7 @@ class Metro:
 
 
 class Al:
-    def __init__(self, iterations=10, repeat=1, instance_provider=Instance()):
+    def __init__(self, iterations=10, repeat=1, instance_provider=InstanceProvider()):
         self.iterations = iterations
         self.repeat = repeat
         self.instance_provider = instance_provider

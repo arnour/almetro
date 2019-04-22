@@ -1,24 +1,34 @@
 import numpy as np
+import random
 
-class Instance:
+class InstanceProvider:
 
+    def __init__(self, fn=None):
+        """Provides a static instance creator.
+
+        :param fn fn: A function that returns the instance
+        """    
+        self.fn = fn
+        
     def new(self):
-        pass
+        """Provides a new instance value from fn.
+
+        :returns: any type of instance
+        """
+        return self.fn()
 
 
-class NumberSequence(Instance):
+class GrowingNumberSequenceProvider(InstanceProvider):
 
-    def __init__(self, size=10, growth_rate=0.1, digits=0):
-        """Provides a number sequence instance creator.
+    def __init__(self, size=10, growth_rate=0.1):
+        """Provides a growing int sequence without repetition instance creator.
 
         :param int size: number of elements in the instance. Default is 10.
-        :param int growth_rate: growth rate of instance size. Default is 0.1.
-        :param int digits: number of decimal digits in each instance's element. Default is 0.
+        :param int growth_rate: growth rate of instance size. Default is 0.1 (10%).
         """
         self.iterations = 0
         self.size = size
         self.growth = size * growth_rate
-        self.digits = digits
 
     def new(self):
         """Provides a new instance of number sequence as a tuple.
@@ -28,4 +38,4 @@ class NumberSequence(Instance):
         """
         length = int(self.size + (self.iterations * self.growth))
         self.iterations += 1        
-        return np.around(np.random.random(length) * length, decimals=self.digits)
+        return np.array(random.sample(range(length * 2), length))
