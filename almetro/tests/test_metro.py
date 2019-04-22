@@ -24,3 +24,12 @@ def test_registerall_min_times():
     metro.register((1, 2, 3, 4,), [0, 1, 2])
     metro.register((1, 2, 3, 4, 5,), [1, 2, 3])
     assert_that(metro.stats().tolist(), equal_to([(4, 0.0,), (5, 1.0,)]))
+
+def test_plot():
+    metro = Metro()
+    metro.register([1], [2])
+    metro.register([1, 2], [4])
+    line, = metro.plot()
+    x_plot, y_plot = line.get_xydata().T
+    np.testing.assert_array_equal(x_plot, np.array([1, 2]))
+    np.testing.assert_array_equal(y_plot, np.array([2, 4]))

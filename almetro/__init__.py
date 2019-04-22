@@ -1,4 +1,5 @@
 from almetro.instance import Instance
+from matplotlib import pyplot as plt 
 import numpy as np
 import timeit
 
@@ -14,6 +15,11 @@ class Metro:
     def stats(self):
         return np.array(list(self.__stats.items()), dtype=self.__stats_dtype)
 
+    def plot(self):       
+        s = self.stats() 
+        return plt.plot(s['n'], s['cost'])
+
+
 
 class Al:
     def __init__(self, iterations=10, repeat=1, instance_provider=Instance()):
@@ -23,7 +29,7 @@ class Al:
 
     def metro(self, algorithm):
         metro = Metro()
-        for i in range(self.iterations):
+        for _ in range(self.iterations):
             instance = self.instance_provider.new()
 
             def runner():
