@@ -1,37 +1,32 @@
 from almetro.instance import InstanceProvider
 from matplotlib import pyplot as plt
-import almetro.complexity as complexity
 import timeit
 import copy
 
-
 class Metro:
-    def __init__(self, complexity=complexity.n):
+    def __init__(self, complexity=None):
         self.__complexity = complexity
         self.__stats = {}
         self.__reference_stats = {}
 
     def register(self, instance, timestats):
         instance_size = len(instance)
-        self.__stats[instance_size] = min(timestats)
-        self.__reference_stats[instance_size] = int(self.__complexity.fn()(instance_size))
+        instance_cost = min(timestats)
+        self.__stats[instance_size] = instance_cost
+        if self.__complexity:
+            self.__reference_stats[instance_size] = self.__complexity.fn()(instance_size)
 
     def stats(self):
         return copy.deepcopy(self.__stats)
 
     def reference_stats(self):
-        return copy.deepcopy(self.__reference_stats)        
+        return copy.deepcopy(self.__reference_stats)
 
-    def plot(self):     
-        plt.title('Complexity algorithm comparison')
-        plt.ylabel('time')
-        plt.xlabel('size')
-        plt.grid(True)          
-        plt.legend()
-        plt.plot(self.reference_stats().keys(), self.reference_stats().items(), label=self.__complexity.text)        
-        return plt.plot(self.stats().keys(), self.stats().items(), label='your algorithm')
+    def complexity(self):
+        return copy.deepcopy(self.__complexity)        
 
-
+    def plot(self):
+        return Plot(self)
 
 
 class Al:
@@ -40,8 +35,8 @@ class Al:
         self.repeat = repeat
         self.instance_provider = instance_provider
 
-    def metro(self, algorithm, complexity=complexity.n):
-        metro = Metro(complexity=complexity)
+    def metro(self, algorithm, complexity=None):
+        metro = Metro(complexity)
         for _ in range(self.iterations):
             instance = self.instance_provider.new()
 
@@ -49,3 +44,30 @@ class Al:
                 algorithm(instance)
             metro.register(instance, timeit.repeat(runner, number=1, repeat=self.repeat))
         return metro
+
+class Plot:
+
+    def __init__(self, metro):        
+        self.__metro = metro
+        self.algorithm_line = None
+        self.theoretical_line = None
+    
+    def __algorithm(self, data):
+        plt.subplot(1, 2, 1)
+        plt.ylabel('time')
+        plt.xlabel('size')
+        plt.grid(True)        
+        self.algorithm_line = plt.plot(data.keys(), data.values(), 'g--', label='Your algorithm')[0]
+    
+    def __theoretical(self, data):
+        plt.subplot(1, 2, 2)
+        plt.ylabel('time')
+        plt.xlabel('size')
+        plt.grid(True)        
+        self.theoretical_line = plt.plot(data.keys(), data.values(), 'b--', label=self.__metro.complexity().text())[0]
+
+    def show(self):
+        plt.close()
+        self.__algorithm(self.__metro.stats())
+        self.__theoretical(self.__metro.reference_stats())   
+        plt.tight_layout()     
