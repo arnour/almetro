@@ -30,7 +30,7 @@ class Metro:
 
 
 class Al:
-    def __init__(self, iterations=10, repeat=1, instance_provider=InstanceProvider()):
+    def __init__(self, iterations=10, repeat=10, instance_provider=InstanceProvider()):
         self.iterations = iterations
         self.repeat = repeat
         self.instance_provider = instance_provider
@@ -42,7 +42,7 @@ class Al:
 
             def runner():
                 algorithm(instance)
-            metro.register(instance, timeit.repeat(runner, number=1, repeat=self.repeat))
+            metro.register(instance, timeit.repeat(runner, number=100, repeat=self.repeat))
         return metro
 
 class Plot:
@@ -53,18 +53,20 @@ class Plot:
         self.theoretical_line = None
     
     def __algorithm(self, data):
-        plt.subplot(1, 2, 1)
-        plt.ylabel('time')
-        plt.xlabel('size')
+        plt.subplot(1, 2, 1).set_title("Algorithm")
+        plt.ylabel('time (s)')
+        plt.xlabel('instance size')
         plt.grid(True)        
         self.algorithm_line = plt.plot(data.keys(), data.values(), 'g--', label='Your algorithm')[0]
+        plt.legend(loc="upper left")
     
     def __theoretical(self, data):
-        plt.subplot(1, 2, 2)
-        plt.ylabel('time')
-        plt.xlabel('size')
+        plt.subplot(1, 2, 2).set_title("Theoretical")
+        plt.xticks([])
+        plt.yticks([])
         plt.grid(True)        
         self.theoretical_line = plt.plot(data.keys(), data.values(), 'b--', label=self.__metro.complexity().text())[0]
+        plt.legend(loc="upper left")
 
     def show(self):
         plt.close()
