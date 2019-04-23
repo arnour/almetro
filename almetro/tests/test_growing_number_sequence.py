@@ -30,3 +30,10 @@ def test_should_return_grown_sequence():
     assert_that(sequence.new(), has_length(15))
     assert_that(sequence.new(), has_length(20))
     assert_that(sequence.new(), has_length(25))
+
+def test_should_return_static_grown_sequence():
+    sequence = GrowingNumberSequenceProvider(size=0, growth_size=100)
+    assert_that(sequence.new(), has_length(0))
+    assert_that(sequence.new(), has_length(100))
+    assert_that(sequence.new(), has_length(200))
+    assert_that(sequence.new(), has_length(300))    

@@ -42,7 +42,7 @@ class Al:
 
             def runner():
                 algorithm(instance)
-            metro.register(instance, timeit.repeat(runner, number=100, repeat=self.repeat))
+            metro.register(instance, timeit.repeat(runner, number=10, repeat=self.repeat))
         return metro
 
 class Plot:

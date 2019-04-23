@@ -21,21 +21,22 @@ class InstanceProvider:
         return InstanceProvider(function)
     
     @staticmethod
-    def growing(size=10, growth_rate=0.1):
-        return GrowingNumberSequenceProvider(size=size, growth_rate=growth_rate)
+    def growing(size=10, growth_rate=0.1, growth_size=0):
+        return GrowingNumberSequenceProvider(size=size, growth_rate=growth_rate, growth_size=growth_size)
 
 
 class GrowingNumberSequenceProvider(InstanceProvider):
 
-    def __init__(self, size=10, growth_rate=0.1):
+    def __init__(self, size=10, growth_rate=0.1, growth_size=0):
         """Provides a growing int sequence without repetition instance creator.
 
         :param int size: number of elements in the instance. Default is 10.
-        :param int growth_rate: growth rate of instance size. Default is 0.1 (10%).
+        :param int growth_rate: growth rate of instance per iteration. Default is 0.1 (10%).
+        :param int growth_rate: growth size of instance per iteration. Default is 0.
         """
         self.iterations = 0
         self.size = size
-        self.growth = size * growth_rate
+        self.growth = growth_size if growth_size > 0 else size * growth_rate
 
     def new(self):
         """Provides a new int list as an instance.
