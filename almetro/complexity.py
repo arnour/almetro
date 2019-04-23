@@ -1,7 +1,7 @@
 import math
 
-class Notation:
-    def __init__(self, fn, text=None, latex=None):
+class Complexity:
+    def __init__(self, fn=lambda n: n, text='O(n)', latex=r'$\mathcal{O}(n)$'):
         """Provides a complexity notation.
 
         :param fn fn: A function that calculates the cost
@@ -18,8 +18,8 @@ class Notation:
     def fn(self):
         return self.__fn   
     
-n_quadratic = Notation(lambda n: n**2, latex=r'$\mathcal{O}(n^2)$')
-n_cubic = Notation(lambda n: n**3, latex=r'$\mathcal{O}(n^3)$')
-n = Notation(lambda n: n, latex=r'$\mathcal{O}(n)$')
-n_log_n = Notation(lambda n: n*math.log(n, 2), latex=r'$\mathcal{O}(n*\log{n})$')
-log_n = Notation(lambda n: math.log(n, 2), latex=r'$\mathcal{O}(\log{n})$')
+cn = Complexity()    
+cn_quadratic = Complexity(lambda n: n**2, text='O(n^2)',latex=r'$\mathcal{O}(n^2)$')
+cn_cubic = Complexity(lambda n: n**3, text='O(n^3)', latex=r'$\mathcal{O}(n^3)$')
+cn_log_n = Complexity(lambda n: n*math.log2(n), text='O(n lg n)', latex=r'$\mathcal{O}(n*\log{n})$')
+clog_n = Complexity(lambda n: math.log2(n), text='O(lg n)', latex=r'$\mathcal{O}(\log{n})$')

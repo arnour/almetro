@@ -9,12 +9,16 @@ class InstanceProvider:
         """    
         self.fn = fn
         
-    def new(self):
+    def new_instance(self):
         """Provides a new instance value from fn.
 
         :returns: any type of instance
         """
         return self.fn()
+
+    @staticmethod
+    def new():
+        return InstanceProvider(lambda : range(10))
 
     @staticmethod
     def function(function=None):
@@ -38,7 +42,7 @@ class GrowingNumberSequenceProvider(InstanceProvider):
         self.size = size
         self.growth = growth_size if growth_size > 0 else size * growth_rate
 
-    def new(self):
+    def new_instance(self):
         """Provides a new int list as an instance.
 
         :returns: one int list. For example: [1, 3]
