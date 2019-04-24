@@ -2,11 +2,12 @@ from matplotlib import pyplot as plt
 from collections.abc import Iterable
 from .spec import experimental_with_ratio_spec
 
+
 class ChartLine:
     def __init__(self, data={}, label=None, color=None):
         self.data = data
         self.label = label
-        self.color = color        
+        self.color = color
         self.plt_line = None
 
     def setup(self, plt_axis):
@@ -26,14 +27,14 @@ class ChartAxis:
     grid = True
 
     def __init__(self, title=None, chart_lines=[]):
-        self.title = title         
+        self.title = title
         self.chart_lines = chart_lines
         self.plt_axis = None
-    
-    def setup(self, plt_axis): 
+
+    def setup(self, plt_axis):
         self.plt_axis = plt_axis
         self.plt_axis.set_title(self.title)
-        self.plt_axis.grid(ChartAxis.grid)        
+        self.plt_axis.grid(ChartAxis.grid)
         for chart_line in self.chart_lines:
             chart_line.setup(self.plt_axis)
         self.plt_axis.legend(loc=ChartAxis.legend_loc)
@@ -43,13 +44,14 @@ class ChartAxis:
     def new(title=None, chart_lines=[]):
         return ChartAxis(title, chart_lines)
 
+
 class Chart:
     def __init__(self, title=None, chart_axes=[]):
         self.title = title
         self.chart_axes = chart_axes
         self.plt_figure = None
-        
-    def show(self):        
+
+    def show(self):
         fig, axes = plt.subplots(1, len(self.chart_axes), sharex=True, sharey=False, figsize=(18, 10))
         self.plt_figure = fig
         self.plt_figure.suptitle(self.title)
@@ -65,6 +67,7 @@ class Chart:
     @staticmethod
     def new(title=None, chart_axes=[]):
         return Chart(title, chart_axes)
+
 
 def build_chart(metro, complexity, spec_builder=experimental_with_ratio_spec):
     spec = spec_builder(metro, complexity)

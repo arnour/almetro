@@ -2,6 +2,7 @@ import almetro.chart as chart
 from almetro.complexity import cn
 import timeit
 
+
 class Metro:
     def __init__(self):
         self.__start = timeit.default_timer()
@@ -16,12 +17,12 @@ class Metro:
 
     def chart(self, complexity=cn):
         if not complexity:
-            raise TypeError('complexity must be provided')     
+            raise TypeError('complexity must be provided')
         self.theoretical = {}
         self.ratio = {}
         for n, t_fn in self.experimental.items():
             self.theoretical[n] = complexity.fn()(n)
-            self.ratio[n] = t_fn/max(self.theoretical[n], 0.1)
+            self.ratio[n] = t_fn / max(self.theoretical[n], 0.1)
         return chart.build_chart(self, complexity)
 
     @staticmethod

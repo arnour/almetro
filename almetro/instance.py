@@ -1,14 +1,15 @@
 import random
 
+
 class InstanceProvider:
 
     def __init__(self, fn=None):
         """Provides a static instance creator.
 
         :param fn fn: A function that returns the instance
-        """    
+        """
         self.fn = fn
-        
+
     def new_instance(self):
         """Provides a new instance value from fn.
 
@@ -37,14 +38,17 @@ class GrowingNumberSequenceProvider(InstanceProvider):
         :rtype: list(int)
         """
         size = int(self.initial_size + (self.iterations * self.growth))
-        self.iterations += 1        
+        self.iterations += 1
         return random.sample(range(size * 2), size)
+
 
 def function(function=None):
     return InstanceProvider(function)
 
+
 def growing(initial_size=10, growth_rate=0.1, growth_size=0):
     return GrowingNumberSequenceProvider(initial_size=initial_size, growth_rate=growth_rate, growth_size=growth_size)
 
+
 def singleton(size=10):
-    return InstanceProvider(lambda : range(size))    
+    return InstanceProvider(lambda: range(size))

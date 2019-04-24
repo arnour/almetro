@@ -4,10 +4,7 @@ GrowingNumberSequenceProvider test.
 """
 from hamcrest import (
     assert_that,
-    instance_of,
     has_length,
-    has_items,
-    matches_regexp,
     is_not,
     equal_to,
 )
@@ -24,6 +21,7 @@ def test_should_return_new_randomic_sequence():
     assert_that(instance[0], is_not(equal_to(instance[1])))
     assert_that(instance[0], is_not(equal_to(instance[2])))
 
+
 def test_should_return_grown_sequence():
     sequence = GrowingNumberSequenceProvider(initial_size=10, growth_rate=0.5)
     assert_that(sequence.new_instance(), has_length(10))
@@ -31,9 +29,10 @@ def test_should_return_grown_sequence():
     assert_that(sequence.new_instance(), has_length(20))
     assert_that(sequence.new_instance(), has_length(25))
 
+
 def test_should_return_static_grown_sequence():
     sequence = GrowingNumberSequenceProvider(initial_size=0, growth_size=100)
     assert_that(sequence.new_instance(), has_length(0))
     assert_that(sequence.new_instance(), has_length(100))
     assert_that(sequence.new_instance(), has_length(200))
-    assert_that(sequence.new_instance(), has_length(300))    
+    assert_that(sequence.new_instance(), has_length(300))
