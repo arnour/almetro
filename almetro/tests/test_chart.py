@@ -39,19 +39,18 @@ def test_should_setup_axis():
 
     title = 'Ratio'
     chart_lines = [MagicMock()]
-    chart_axis = ChartAxis(title, chart_lines, axis)
+    chart_axis = ChartAxis(title, chart_lines)
     
-    chart_axis.setup()
+    chart_axis.setup(axis)
 
     assert_that(chart_axis.plt_axis.get_title(), equal_to(title))
     chart_lines[0].setup.assert_called_once_with(axis)
 
 def test_should_show_chart():
-    figure, _ = get_axis()
     title = 'Experimental'
-    chart_axes = [MagicMock()]
+    chart_axes = [MagicMock(), MagicMock()]
 
-    chart = Chart(title, chart_axes, figure)
+    chart = Chart(title, chart_axes)
 
     chart.show()
     

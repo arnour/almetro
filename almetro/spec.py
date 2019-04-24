@@ -14,8 +14,8 @@ def experimental_with_ratio_spec(metro, complexity):
             spec_axis(
                 'Experimental',
                 [
-                    spec_line(metro.ratio, '$\mathcal{T}(\mathcal{f}(n))/' + complexity.text() + '$', 'tab:green'),
-                    spec_line(metro.experimental, '$\mathcal{T}(\mathcal{f}(n))$', 'tab:blue')
+                    spec_line(metro.ratio, 'ratio: $\mathcal{T}/\mathcal{O}$', 'tab:green'),
+                    spec_line(metro.experimental, 'experimental: $\mathcal{T}(\mathcal{f}(n))$', 'tab:blue'),
                 ]
             ),
             spec_axis(

@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+from collections.abc import Iterable
 from .spec import experimental_with_ratio_spec
 
 class ChartLine:
@@ -9,7 +10,11 @@ class ChartLine:
         self.plt_line = None
 
     def setup(self, plt_axis):
-        self.plt_line = plt_axis.plot(self.data.keys(), self.data.values(), self.color, label=self.label)[0]
+        lines = plt_axis.plot(self.data.keys(), self.data.values(), self.color, label=self.label)
+        if isinstance(lines, Iterable):
+            self.plt_line = lines[0]
+        else:
+            self.plt_line = lines
 
     @staticmethod
     def new(data={}, label=None, color=None):
@@ -20,47 +25,54 @@ class ChartAxis:
     legend_loc = "upper left"
     grid = True
 
-    def __init__(self, title=None, chart_lines=[], plt_axis=None):
+    def __init__(self, title=None, chart_lines=[]):
         self.title = title         
         self.chart_lines = chart_lines
-        self.plt_axis = plt_axis
+        self.plt_axis = None
     
-    def setup(self): 
+    def setup(self, plt_axis): 
+        self.plt_axis = plt_axis
+        self.plt_axis.set_title(self.title)
+        self.plt_axis.grid(ChartAxis.grid)        
         for chart_line in self.chart_lines:
             chart_line.setup(self.plt_axis)
-        self.plt_axis.set_title(self.title)
-        self.plt_axis.grid(ChartAxis.grid)
         self.plt_axis.legend(loc=ChartAxis.legend_loc)
         self.plt_axis.label_outer()
 
     @staticmethod
-    def new(title=None, chart_lines=[], plt_axis=None):
-        return ChartAxis(title, chart_lines, plt_axis)
+    def new(title=None, chart_lines=[]):
+        return ChartAxis(title, chart_lines)
 
 class Chart:
-    def __init__(self, title=None, chart_axes=[], plt_figure=None):
+    def __init__(self, title=None, chart_axes=[]):
         self.title = title
         self.chart_axes = chart_axes
-        self.plt_figure = plt_figure
+        self.plt_figure = None
         
-    def show(self):
+    def show(self):        
+        fig, axes = plt.subplots(1, len(self.chart_axes), sharex=True, sharey=False, figsize=(18, 10))
+        self.plt_figure = fig
         self.plt_figure.suptitle(self.title)
-        for chart_axis in self.chart_axes:
-            chart_axis.setup()
+        for i, chart_axis in enumerate(self.chart_axes):
+            if isinstance(axes, Iterable):
+                axis = axes[i]
+            else:
+                axis = axes
+            chart_axis.setup(axis)
+        plt.close()
+        return fig
 
     @staticmethod
-    def new(title=None, chart_axes=[], plt_figure=None):
-        return Chart(title, chart_axes, plt_figure)
+    def new(title=None, chart_axes=[]):
+        return Chart(title, chart_axes)
 
 def build_chart(metro, complexity, spec_builder=experimental_with_ratio_spec):
     spec = spec_builder(metro, complexity)
-    plt.close()
-    fig, axes = plt.subplots(1, len(spec['axes']), sharex=True, sharey=True, figsize=(18, 10))
     chart_axes = []
     for i, axis_spec in enumerate(spec['axes']):
         chart_lines = []
         for line_spec in axis_spec['lines']:
-            chart_lines.append(ChartLine.new(*line_spec))
-        chart_axes.append(ChartAxis.new(axis_spec['title'], chart_lines, axes[i]))
+            chart_lines.append(ChartLine.new(**line_spec))
+        chart_axes.append(ChartAxis.new(axis_spec['title'], chart_lines))
 
-    return Chart.new(spec['title'], chart_axes, fig)
+    return Chart.new(spec['title'], chart_axes)
