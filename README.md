@@ -23,3 +23,6 @@ Or clone the repo:
 
     $ git clone https://github.com/arnour/almetro.git
     $ python setup.py install
+
+Examples
+--------------------

@@ -6,7 +6,6 @@ import time
 from unittest.mock import patch
 from hamcrest import (
     assert_that,
-    equal_to,
     has_entries,
     close_to
 )
@@ -23,15 +22,9 @@ def test_register_min_time_for_each_call():
     assert_that(metro.experimental, has_entries({6: 17, 7: 22}))
     assert_that(metro.elapsed_time, close_to(0.2, 0.05))
 
-@patch('almetro.chart.Chart.new')
-def test_should_create_chart_for_metro(chart_factory_mock):
+@patch('almetro.chart.build_chart')
+def test_should_create_chart_for_metro(build_chart_mock):
     metro = Metro()
     metro.experimental = {0: 0.0, 1: 1.0, 2: 4.0, 3: 9.0}
     metro.chart(cn)
-    chart_factory_mock.assert_called_once_with(
-        experimental={0: 0.0, 1: 1.0, 2: 4.0, 3: 9.0},
-        ratio={0: 0.0, 1: 1.0, 2: 2.0, 3: 3.0},
-        theoretical={0: 0, 1: 1, 2: 2, 3: 3},
-        complexity=cn,
-        elapsed_time=0
-    )
+    build_chart_mock.assert_called_once_with(metro, cn)

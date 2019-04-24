@@ -12,53 +12,47 @@ from hamcrest import (
     has_items,
     close_to
 )
-from almetro.chart import Chart, ChartAxis
+from almetro.chart import Chart, ChartAxis, ChartLine, build_chart
 from almetro.complexity import cn_quadratic
 
-def test_should_setup_axis():
-    data = {0.: 0., 1.: 3., 2.: 4., 3.: 5.}
-    title = 'Ratio'
-    label = 'c'
-    color = 'tab:green'
-    axis = ChartAxis(data, title, label, color)
+def get_axis():
     plt.close()
-    ax1 = plt.subplot()
-    
-    axis.setup(ax1)
+    return plt.subplots(1, 2, sharex=True)
 
-    rt_x, rt_y = axis.line.get_xydata().T    
+def test_should_setup_line():
+    _, axes = get_axis()
+    axis = axes[0]
+
+    data = {0.: 0., 1.: 3., 2.: 4., 3.: 5.}
+    label = 'c'
+    line = ChartLine(data, label, 'tab:green')
+    line.setup(axis)
+
+    rt_x, rt_y = line.plt_line.get_xydata().T    
     assert_that(rt_x, has_items(*list(data.keys())))
     assert_that(rt_y, has_items(*list(data.values())))
-    assert_that(axis.line.get_label(), equal_to('c'))
-    assert_that(ax1.get_title(), equal_to('Ratio'))
+    assert_that(line.plt_line.get_label(), equal_to(label))
 
-@patch('almetro.chart.ChartAxis.new')
-def test_should_show_chart(chartaxis_factory_mock):  
-    caxis1, caxis2, caxis3 = MagicMock(), MagicMock(), MagicMock()
-    chartaxis_factory_mock.side_effect = [caxis1, caxis2, caxis3]
-    experimental=MagicMock()
-    ratio=MagicMock()
-    theoretical=MagicMock()
-    complexity_text = 'complexity text'
-    complexity=MagicMock()
-    complexity.text.return_value = complexity_text
-    elapsed_time=MagicMock()      
-    chart = Chart(
-                experimental=experimental,
-                ratio=ratio,
-                theoretical=theoretical,
-                complexity=complexity,
-                elapsed_time=elapsed_time
-            )
+def test_should_setup_axis():
+    _, axes = get_axis()
+    axis = axes[0]
+
+    title = 'Ratio'
+    chart_lines = [MagicMock()]
+    chart_axis = ChartAxis(title, chart_lines, axis)
     
+    chart_axis.setup()
+
+    assert_that(chart_axis.plt_axis.get_title(), equal_to(title))
+    chart_lines[0].setup.assert_called_once_with(axis)
+
+def test_should_show_chart():
+    figure, _ = get_axis()
+    title = 'Experimental'
+    chart_axes = [MagicMock()]
+
+    chart = Chart(title, chart_axes, figure)
+
     chart.show()
-
-    assert_that(chart.ratio, equal_to(caxis1))
-    assert_that(chart.experimental, equal_to(caxis2))
-    assert_that(chart.theoretical, equal_to(caxis3))
-
-    chartaxis_factory_mock.has_calls([
-        call(ratio, 'Ratio', 'c', 'tab:green'),
-        call(experimental, 'Experimental', '$\mathcal{T}(\mathcal{f}(n))$', 'tab:blue'),
-        call(theoretical, 'Theoretical', complexity_text, 'tab:red')
-    ])
+    
+    chart_axes[0].setup.assert_called_once()

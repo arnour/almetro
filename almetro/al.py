@@ -1,4 +1,4 @@
-from almetro.instance import InstanceProvider
+from almetro.instance import singleton
 from almetro.metro import Metro
 import timeit
 
@@ -16,7 +16,7 @@ class ExecutionSettings:
         return ExecutionSettings()
 
 class InstanceSettings:
-    def __init__(self, instances=1, provider=InstanceProvider.new()):
+    def __init__(self, instances=1, provider=singleton(10)):
         if not instances:
             raise TypeError('#instances must be provided')
         if not provider:
