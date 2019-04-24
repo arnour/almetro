@@ -6,7 +6,7 @@ from hamcrest import (
     assert_that,
     equal_to,
 )
-from almetro.complexity import cn, cn_quadratic, cn_cubic, clog_n, cn_log_n
+from almetro.complexity import cn, cn_quadratic, cn_cubic, clog_n, cn_log_n, c_one
 
 def test_should_return_n():
     assert_that(cn.fn()(1), equal_to(1))
@@ -29,3 +29,7 @@ def test_should_return_n_log_n():
 def test_should_return_log_n():
     assert_that(clog_n.fn()(8), equal_to(3))
     assert_that(clog_n.fn()(32), equal_to(5))
+
+def test_should_return_c():
+    assert_that(c_one.fn()(8), equal_to(1))
+    assert_that(c_one.fn()(32), equal_to(1))
