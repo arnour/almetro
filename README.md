@@ -46,4 +46,27 @@ chart = metro.chart(cn_quadratic)
 chart.show()
 ```
 
-![aaa](images/chart_almetro_n_quadratic.png)
+![Chart Almetro n quadratic](images/chart_almetro_n_quadratic.png)
+
+---
+
+Applying Almetro to a lg n algorithm:
+
+```
+import almetro
+from almetro.algorithms import loop_n_log
+from almetro.complexity import clog_n
+from almetro.instance import growing
+
+metro = almetro\
+            .new()\
+            .with_execution(runs=100, trials=100)\
+            .with_instances(instances=20, provider=growing(initial_size=10000, growth_size=10000))\
+            .metro(algorithm=loop_n_log)
+
+chart = metro.chart(clog_n)
+
+chart.show()
+```
+
+![Chart Almetro lg n](images/chart_almetro_lg_n.png)
