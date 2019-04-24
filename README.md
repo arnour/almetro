@@ -26,3 +26,24 @@ Or clone the repo:
 
 Examples
 --------------------
+
+Applying Almetro to a quadratic algorithm:
+
+```
+import almetro
+from almetro.algorithms import loop_n_quadratic
+from almetro.complexity import cn_quadratic
+from almetro.instance import growing
+
+metro = almetro\
+            .new()\
+            .with_execution(runs=1, trials=1)\
+            .with_instances(instances=20, provider=growing(initial_size=100, growth_size=100))\
+            .metro(algorithm=loop_n_quadratic)
+
+chart = metro.chart(cn_quadratic)
+
+chart.show()
+```
+
+![aaa](images/chart_almetro_n_quadratic.png)
