@@ -29,7 +29,7 @@ Examples
 
 Applying Almetro to a quadratic algorithm:
 
-```
+```python
 import almetro
 from almetro.algorithms import loop_n_quadratic
 from almetro.complexity import cn_quadratic
@@ -52,7 +52,7 @@ chart.show()
 
 Applying Almetro to a lg n algorithm:
 
-```
+```python
 import almetro
 from almetro.algorithms import loop_n_log
 from almetro.complexity import clog_n
