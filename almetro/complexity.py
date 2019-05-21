@@ -13,9 +13,11 @@ class Complexity:
         self.__text = text
         self.__latex = latex
 
+    @property
     def text(self):
         return self.__latex if self.__latex else self.__text
 
+    @property
     def fn(self):
         return self.__fn
 

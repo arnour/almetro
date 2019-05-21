@@ -69,10 +69,10 @@ class Chart:
         return Chart(title, chart_axes)
 
 
-def build_chart(metro, complexity, spec_builder=experimental_with_ratio_spec):
-    spec = spec_builder(metro, complexity)
+def build_chart(metro, spec_builder=experimental_with_ratio_spec):
+    spec = spec_builder(metro, metro.complexity)
     chart_axes = []
-    for i, axis_spec in enumerate(spec['axes']):
+    for axis_spec in spec['axes']:
         chart_lines = []
         for line_spec in axis_spec['lines']:
             chart_lines.append(ChartLine.new(**line_spec))

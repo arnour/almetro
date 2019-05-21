@@ -46,11 +46,11 @@ class Metro:
 
     def chart(self):
         self.process()
-        return chart.build_chart(self, self.complexity)
+        return chart.build_chart(self)
 
     def table(self):
         self.process()
-        return table.build_table(self, self.complexity)
+        return table.build_table(self)
 
     def process(self):
         if not self.__processed:
@@ -59,7 +59,7 @@ class Metro:
             self.__theoretical = {}
             self.__ratio = {}
             for n, t_fn in self.__experimental.items():
-                self.__theoretical[n] = self.__complexity.fn()(n)
+                self.__theoretical[n] = self.__complexity.fn(n)
                 self.__ratio[n] = t_fn / max(self.__theoretical[n], 0.1)
             self.__processed = True
 

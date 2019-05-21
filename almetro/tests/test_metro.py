@@ -45,7 +45,7 @@ class TestMetro(TestBase):
     def test_should_create_chart_for_metro(self, build_chart_mock, metro_process_mock):
         metro = Metro(cn)
         metro.chart()
-        build_chart_mock.assert_called_once_with(metro, cn)
+        build_chart_mock.assert_called_once_with(metro)
         metro_process_mock.assert_called_once()
 
     @mock.patch('almetro.metro.Metro.process')
@@ -53,5 +53,5 @@ class TestMetro(TestBase):
     def test_should_create_table_for_metro(self, build_table_mock, metro_process_mock):
         metro = Metro(cn)
         metro.table()
-        build_table_mock.assert_called_once_with(metro, cn)
+        build_table_mock.assert_called_once_with(metro)
         metro_process_mock.assert_called_once()
