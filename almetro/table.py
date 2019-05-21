@@ -7,7 +7,7 @@ def build_table(metro, spec_builder=None):
         data.append((n, cost, metro.theoretical[n], metro.ratio[n]))
 
     return tabulate.tabulate(
-        data, 
+        data,
         headers=['n', 'experimental', f'theoretical {metro.complexity.text}', 'ratio'],
         tablefmt="fancy_grid"
     )
