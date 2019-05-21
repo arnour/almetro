@@ -2,51 +2,42 @@
 InstanceProvider test.
 
 """
-from hamcrest import (
-    assert_that,
-    instance_of,
-    has_length,
-    has_items,
-    equal_to,
-    all_of
-)
 import random
+from almetro.tests import TestBase, matchers as m
 from almetro.instance import InstanceProvider, GrowingNumberSequenceProvider
 from almetro.instance import growing, function, singleton
 
 
-def test_should_return_randomic_arrays():
-    provider = InstanceProvider(fn=lambda: random.sample(range(5), 5))
+class TestInstance(TestBase):
 
-    assert_that(provider.new_instance(), has_length(5))
-    assert_that(provider.new_instance(), has_length(5))
+    def test_should_return_randomic_arrays(self):
+        provider = InstanceProvider(fn=lambda: random.sample(range(5), 5))
 
+        m.assert_that(provider.new_instance(), m.has_length(5))
+        m.assert_that(provider.new_instance(), m.has_length(5))
 
-def test_should_return_same_instance():
-    provider = InstanceProvider(fn=lambda: [1, 2, 6])
+    def test_should_return_same_instance(self):
+        provider = InstanceProvider(fn=lambda: [1, 2, 6])
 
-    assert_that(provider.new_instance(), has_items(1, 2, 6))
-    assert_that(provider.new_instance(), has_items(1, 2, 6))
+        m.assert_that(provider.new_instance(), m.has_items(1, 2, 6))
+        m.assert_that(provider.new_instance(), m.has_items(1, 2, 6))
 
+    def test_should_return_function_provider(self):
+        provider = function(lambda: [1, 5])
+        m.assert_that(provider, m.instance_of(InstanceProvider))
+        m.assert_that(provider.new_instance(), m.has_length(2))
+        m.assert_that(provider.new_instance(), m.has_items(1, 5))
 
-def test_should_return_function_provider():
-    provider = function(lambda: [1, 5])
-    assert_that(provider, instance_of(InstanceProvider))
-    assert_that(provider.new_instance(), has_length(2))
-    assert_that(provider.new_instance(), has_items(1, 5))
+    def test_should_return_growing_provider(self):
+        provider = growing(initial_size=1, growth_rate=1.0)
+        m.assert_that(provider, m.instance_of(GrowingNumberSequenceProvider))
+        m.assert_that(provider.new_instance(), m.has_length(1))
+        m.assert_that(provider.new_instance(), m.has_length(2))
+        m.assert_that(provider.new_instance(), m.has_length(3))
 
-
-def test_should_return_growing_provider():
-    provider = growing(initial_size=1, growth_rate=1.0)
-    assert_that(provider, instance_of(GrowingNumberSequenceProvider))
-    assert_that(provider.new_instance(), has_length(1))
-    assert_that(provider.new_instance(), has_length(2))
-    assert_that(provider.new_instance(), has_length(3))
-
-
-def test_should_return_singleton_provider():
-    provider = singleton(size=4)
-    assert_that(provider, instance_of(InstanceProvider))
-    assert_that(provider.new_instance(), all_of(has_length(4), equal_to(range(4))))
-    assert_that(provider.new_instance(), all_of(has_length(4), equal_to(range(4))))
-    assert_that(provider.new_instance(), all_of(has_length(4), equal_to(range(4))))
+    def test_should_return_singleton_provider(self):
+        provider = singleton(size=4)
+        m.assert_that(provider, m.instance_of(InstanceProvider))
+        m.assert_that(provider.new_instance(), m.all_of(m.has_length(4), m.equal_to(range(4))))
+        m.assert_that(provider.new_instance(), m.all_of(m.has_length(4), m.equal_to(range(4))))
+        m.assert_that(provider.new_instance(), m.all_of(m.has_length(4), m.equal_to(range(4))))

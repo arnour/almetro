@@ -47,8 +47,8 @@ class Al:
     def with_execution(self, trials, runs):
         return Al(instance_settings=self.__instance_settings, execution_settings=ExecutionSettings(trials, runs))
 
-    def metro(self, algorithm):
-        metro = Metro.new()
+    def metro(self, algorithm, complexity):
+        metro = Metro.new(complexity)
         for _ in range(self.__instance_settings.instances):
             instance = self.__instance_settings.provider.new_instance()
 

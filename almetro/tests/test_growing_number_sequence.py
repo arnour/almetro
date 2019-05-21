@@ -2,37 +2,30 @@
 GrowingNumberSequenceProvider test.
 
 """
-from hamcrest import (
-    assert_that,
-    has_length,
-    is_not,
-    equal_to,
-)
-
+from almetro.tests import TestBase, matchers as m
 from almetro.instance import GrowingNumberSequenceProvider
 
 
-def test_should_return_new_sized_7_sequence():
-    assert_that(GrowingNumberSequenceProvider(initial_size=7).new_instance(), has_length(7))
+class TestChart(TestBase):
 
+    def test_should_return_new_sized_7_sequence(self):
+        m.assert_that(GrowingNumberSequenceProvider(initial_size=7).new_instance(), m.has_length(7))
 
-def test_should_return_new_randomic_sequence():
-    instance = GrowingNumberSequenceProvider(initial_size=3).new_instance()
-    assert_that(instance[0], is_not(equal_to(instance[1])))
-    assert_that(instance[0], is_not(equal_to(instance[2])))
+    def test_should_return_new_randomic_sequence(self):
+        instance = GrowingNumberSequenceProvider(initial_size=3).new_instance()
+        m.assert_that(instance[0], m.is_not(m.equal_to(instance[1])))
+        m.assert_that(instance[0], m.is_not(m.equal_to(instance[2])))
 
+    def test_should_return_grown_sequence(self):
+        sequence = GrowingNumberSequenceProvider(initial_size=10, growth_rate=0.5)
+        m.assert_that(sequence.new_instance(), m.has_length(10))
+        m.assert_that(sequence.new_instance(), m.has_length(15))
+        m.assert_that(sequence.new_instance(), m.has_length(20))
+        m.assert_that(sequence.new_instance(), m.has_length(25))
 
-def test_should_return_grown_sequence():
-    sequence = GrowingNumberSequenceProvider(initial_size=10, growth_rate=0.5)
-    assert_that(sequence.new_instance(), has_length(10))
-    assert_that(sequence.new_instance(), has_length(15))
-    assert_that(sequence.new_instance(), has_length(20))
-    assert_that(sequence.new_instance(), has_length(25))
-
-
-def test_should_return_static_grown_sequence():
-    sequence = GrowingNumberSequenceProvider(initial_size=0, growth_size=100)
-    assert_that(sequence.new_instance(), has_length(0))
-    assert_that(sequence.new_instance(), has_length(100))
-    assert_that(sequence.new_instance(), has_length(200))
-    assert_that(sequence.new_instance(), has_length(300))
+    def test_should_return_static_grown_sequence(self):
+        sequence = GrowingNumberSequenceProvider(initial_size=0, growth_size=100)
+        m.assert_that(sequence.new_instance(), m.has_length(0))
+        m.assert_that(sequence.new_instance(), m.has_length(100))
+        m.assert_that(sequence.new_instance(), m.has_length(200))
+        m.assert_that(sequence.new_instance(), m.has_length(300))

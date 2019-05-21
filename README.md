@@ -39,9 +39,9 @@ metro = almetro\
             .new()\
             .with_execution(runs=1, trials=1)\
             .with_instances(instances=20, provider=growing(initial_size=100, growth_size=100))\
-            .metro(algorithm=loop_n_quadratic)
+            .metro(algorithm=loop_n_quadratic, complexity=cn_quadratic)
 
-chart = metro.chart(cn_quadratic)
+chart = metro.chart()
 
 chart.show()
 ```
@@ -62,9 +62,9 @@ metro = almetro\
             .new()\
             .with_execution(runs=100, trials=100)\
             .with_instances(instances=20, provider=growing(initial_size=10000, growth_size=10000))\
-            .metro(algorithm=loop_n_log)
+            .metro(algorithm=loop_n_log, complexity=clog_n)
 
-chart = metro.chart(clog_n)
+chart = metro.chart()
 
 chart.show()
 ```
