@@ -15,6 +15,10 @@ class Complexity:
 
     @property
     def text(self):
+        return self.__text
+
+    @property
+    def latex(self):
         return self.__latex if self.__latex else self.__text
 
     @property

@@ -39,9 +39,9 @@ class Metro:
     def processed(self):
         return self.__processed
 
-    def register(self, instance, timestats):
+    def register(self, size, timestats):
         self.__elapsed_time = timeit.default_timer() - self.__start
-        self.__experimental[len(instance)] = min(timestats)
+        self.__experimental[size] = min(timestats)
         self.__processed = False
 
     def chart(self):

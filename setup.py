@@ -15,6 +15,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        "matplotlib==3.0.3",
+        "tabulate==0.8.3"
     ],
     setup_requires=[
         "nose>=1.3.7",

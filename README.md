@@ -37,7 +37,7 @@ from almetro.instance import growing
 
 metro = almetro\
             .new()\
-            .with_execution(runs=1, trials=1)\
+            .with_execution(trials=5)\
             .with_instances(instances=20, provider=growing(initial_size=100, growth_size=100))\
             .metro(algorithm=loop_n_quadratic, complexity=cn_quadratic)
 
@@ -60,7 +60,7 @@ from almetro.instance import growing
 
 metro = almetro\
             .new()\
-            .with_execution(runs=100, trials=100)\
+            .with_execution(trials=100)\
             .with_instances(instances=20, provider=growing(initial_size=10000, growth_size=10000))\
             .metro(algorithm=loop_n_log, complexity=clog_n)
 

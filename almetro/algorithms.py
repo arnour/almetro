@@ -1,7 +1,7 @@
 import math
 
 
-def loop_n(instance):
+def loop_n(instance=[]):
     n = len(instance)
     j = 0
     for _ in range(n):
@@ -9,7 +9,7 @@ def loop_n(instance):
     return j
 
 
-def loop_n_quadratic(instance):
+def loop_n_quadratic(instance=[]):
     n = len(instance)
     j = 0
     for _ in range(n):
@@ -18,7 +18,7 @@ def loop_n_quadratic(instance):
     return j
 
 
-def loop_n_cubic(instance):
+def loop_n_cubic(instance=[]):
     n = len(instance)
     j = 0
     for _ in range(n):
@@ -28,7 +28,7 @@ def loop_n_cubic(instance):
     return j
 
 
-def loop_n_log(instance):
+def loop_n_log(instance=[]):
     n = len(instance)
     log_n = math.ceil(math.log2(n))
     j = 0
@@ -37,7 +37,7 @@ def loop_n_log(instance):
     return j
 
 
-def loop_n_log_n(instance):
+def loop_n_log_n(instance=[]):
     n = len(instance)
     log_n = math.ceil(math.log2(n))
     j = 0

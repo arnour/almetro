@@ -10,3 +10,10 @@ setup:
 
 tests:
 	tox
+
+install: clean
+	pip install -e .	
+
+dist:
+	python setup.py sdist
+	cp -f dist/almetro-0.1.0.tar.gz /Users/arnour.sabino/DockerVolumes/jupyter/almetro-0.1.1.tar.gz

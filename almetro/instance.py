@@ -39,16 +39,22 @@ class GrowingNumberSequenceProvider(InstanceProvider):
         """
         size = int(self.initial_size + (self.iterations * self.growth))
         self.iterations += 1
-        return random.sample(range(size * 2), size)
+        return {'instance': random.sample(range(size * 2), size), 'size': size}
 
 
-def function(function=None):
-    return InstanceProvider(function)
+class GeneratorProvider(InstanceProvider):
+
+    def new_instance(self):
+        """Provides a new instance value from next(fn).
+
+        :returns: dict
+        """
+        return next(self.fn())
+
+
+def generator(fn=None):
+    return GeneratorProvider(fn)
 
 
 def growing(initial_size=10, growth_rate=0.1, growth_size=0):
     return GrowingNumberSequenceProvider(initial_size=initial_size, growth_rate=growth_rate, growth_size=growth_size)
-
-
-def singleton(size=10):
-    return InstanceProvider(lambda: range(size))

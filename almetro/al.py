@@ -1,4 +1,4 @@
-from almetro.instance import singleton
+from almetro.instance import growing
 from almetro.metro import Metro
 import timeit
 
@@ -18,7 +18,7 @@ class ExecutionSettings:
 
 
 class InstanceSettings:
-    def __init__(self, instances=1, provider=singleton(10)):
+    def __init__(self, instances=1, provider=growing()):
         if not instances:
             raise TypeError('#instances must be provided')
         if not provider:
@@ -53,6 +53,6 @@ class Al:
             instance = self.__instance_settings.provider.new_instance()
 
             def runner():
-                algorithm(instance)
-            metro.register(instance, timeit.repeat(runner, number=self.__execution_settings.runs, repeat=self.__execution_settings.trials))
+                algorithm(**instance)
+            metro.register(instance['size'], timeit.repeat(runner, number=self.__execution_settings.runs, repeat=self.__execution_settings.trials))
         return metro

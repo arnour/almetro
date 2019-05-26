@@ -24,7 +24,7 @@ def experimental_with_ratio_spec(metro, complexity):
             spec_axis(
                 'Theoretical',
                 [
-                    spec_line(metro.theoretical, complexity.text, 'tab:red')
+                    spec_line(metro.theoretical, complexity.latex, 'tab:red')
                 ]
             )
         ]
