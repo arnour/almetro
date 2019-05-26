@@ -49,4 +49,3 @@ class TestGrowingNumberSequenceProvider(TestBase):
         instance = provider.new_instance()
         m.assert_that(instance.size, m.equal_to(200))
         m.assert_that(instance.value['instance'], m.has_length(200))
-

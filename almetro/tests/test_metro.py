@@ -13,7 +13,7 @@ class TestMetro(TestBase):
 
     def test_register_min_time_for_each_call(self):
         metro = Metro(cn)
-        time.sleep(0.1)        
+        time.sleep(0.1)
         metro.register(Instance(name='any', value=[], size=6), [45, 88, 17])
         time.sleep(0.1)
         metro.register(Instance(name='any', value=[], size=7), [45, 88, 37, 22])

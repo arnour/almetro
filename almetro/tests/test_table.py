@@ -28,3 +28,9 @@ class TestTable(TestBase):
             headers=['n', 'experimental', 'theoretical cn', 'ratio'],
             tablefmt='fancy_grid'
         )
+
+    @mock.patch('almetro.table.tprint', autospec=True)
+    def test_show_table(self, mock_print):
+        table_instance = table.Table('data')
+        table_instance.show()
+        mock_print.assert_called_with('data')

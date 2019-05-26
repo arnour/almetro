@@ -4,7 +4,7 @@ Al test.
 """
 from almetro.tests import TestBase, mock, matchers as m
 from almetro.al import InstanceSettings, ExecutionSettings, Al
-from almetro.instance import growing, generator, Instance
+from almetro.instance import growing, generator
 
 
 class TestAl(TestBase):

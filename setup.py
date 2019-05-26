@@ -2,7 +2,7 @@
 from setuptools import find_packages, setup
 
 project = "almetro"
-version = "1.0.4"
+version = "1.0.6"
 
 setup(
     name=project,
