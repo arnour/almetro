@@ -92,3 +92,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# virtualenv
+.env
+
+# vscode
+.vscode
