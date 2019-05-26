@@ -51,8 +51,7 @@ class Al:
         metro = Metro.new(complexity)
         for _ in range(self.__instance_settings.instances):
             instance = self.__instance_settings.provider.new_instance()
-
             def runner():
-                algorithm(**instance)
-            metro.register(instance['size'], timeit.repeat(runner, number=self.__execution_settings.runs, repeat=self.__execution_settings.trials))
+                algorithm(**instance.value)
+            metro.register(instance, timeit.repeat(runner, number=self.__execution_settings.runs, repeat=self.__execution_settings.trials))
         return metro

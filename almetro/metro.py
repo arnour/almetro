@@ -8,6 +8,7 @@ import timeit
 class Metro:
     def __init__(self, complexity):
         self.__start = timeit.default_timer()
+        self.__instances = {}
         self.__elapsed_time = 0
         self.__experimental = {}
         self.__theoretical = {}
@@ -39,9 +40,10 @@ class Metro:
     def processed(self):
         return self.__processed
 
-    def register(self, size, timestats):
+    def register(self, instance, timestats):
         self.__elapsed_time = timeit.default_timer() - self.__start
-        self.__experimental[size] = min(timestats)
+        self.__instances[instance.size] = instance
+        self.__experimental[instance.size] = min(timestats)
         self.__processed = False
 
     def chart(self):
@@ -58,9 +60,10 @@ class Metro:
                 raise ValueError('complexity must be provided')
             self.__theoretical = {}
             self.__ratio = {}
-            for n, t_fn in self.__experimental.items():
-                self.__theoretical[n] = self.__complexity.fn(n)
-                self.__ratio[n] = t_fn / max(self.__theoretical[n], 0.1)
+            for size, instance in self.__instances.items():
+                t_fn = self.__experimental[size]
+                self.__theoretical[size] = self.__complexity.fn(instance.size)
+                self.__ratio[size] = t_fn / max(self.__theoretical[size], 0.1)
             self.__processed = True
 
     @staticmethod
