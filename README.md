@@ -46,7 +46,7 @@ chart = metro.chart()
 chart.show()
 ```
 
-![Chart Almetro n quadratic](images/chart_almetro_n_quadratic.png)
+![Chart Almetro n quadratic](https://raw.githubusercontent.com/arnour/almetro/master/images/chart_almetro_n_quadratic.png)
 
 ---
 
@@ -69,4 +69,4 @@ chart = metro.chart()
 chart.show()
 ```
 
-![Chart Almetro lg n](images/chart_almetro_lg_n.png)
+![Chart Almetro lg n](https://github.com/arnour/almetro/blob/master/images/chart_almetro_lg_n.png?raw=true)

@@ -2,12 +2,15 @@
 from setuptools import find_packages, setup
 
 project = "almetro"
-version = "0.1.0"
+version = "1.0.4"
 
 setup(
     name=project,
     version=version,
+    license="Apache License",
     description="A python library to measure algorithms execution time and compare with its theoretical complexity",
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     author="Arnour Sabino",
     author_email="arnour.sabino@gmail.com",
     url="https://github.com/arnour/almetro",
@@ -25,7 +28,7 @@ setup(
     ],
     entry_points={
     },
-    extras_require = {
+    extras_require={
         "test": [
             "flake8>=3.7.7",
             "flake8-print>=3.1.0",

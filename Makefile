@@ -17,3 +17,9 @@ install: clean
 dist:
 	python setup.py sdist
 	cp -f dist/almetro-0.1.0.tar.gz /Users/arnour.sabino/DockerVolumes/jupyter/almetro-0.1.1.tar.gz
+
+release:
+	@rm -fr dist/*
+	python setup.py sdist bdist_wheel
+	twine check dist/*
+	twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
