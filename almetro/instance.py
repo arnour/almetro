@@ -12,7 +12,8 @@ class Instance(object):
 
     @property
     def label(self):
-        return f'{self.name}:{self.size}'
+        size = " ".join("=".join((str(k), str(v))) for k, v in self.size.items())
+        return f'{self.name} {size}'
 
     def __eq__(self, other):
         if other is not None and isinstance(other, Instance):
@@ -20,7 +21,13 @@ class Instance(object):
         return False
 
     def __str__(self):
-        return f'name: {self.name}, size: {self.size}, value: {self.value}'
+        return f'label: {self.label}, value: {self.value}'
+
+    def theoretical(self, complexity):
+        return complexity.theoretical(**self.size)
+
+    def experimental(self, complexity):
+        return complexity.experimental(**self.size)
 
 
 class InstanceProvider:
@@ -61,7 +68,7 @@ class GrowingNumberSequenceProvider(InstanceProvider):
         """
         size = int(self.initial_size + (self.iterations * self.growth))
         self.iterations += 1
-        return Instance(name=f'growing', size=size, value={'instance': random.sample(range(size * 2), size)})
+        return Instance(name=f'growing', size={'n': size}, value={'instance': random.sample(range(size * 2), size)})
 
 
 class GeneratorProvider(InstanceProvider):

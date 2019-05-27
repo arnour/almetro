@@ -25,6 +25,10 @@ class Metro:
         return deepcopy(self.__experimental)
 
     @property
+    def instances(self):
+        return deepcopy(self.__instances)
+
+    @property
     def theoretical(self):
         return deepcopy(self.__theoretical)
 
@@ -41,9 +45,10 @@ class Metro:
         return self.__processed
 
     def register(self, instance, timestats):
+        size = instance.experimental(self.__complexity)
         self.__elapsed_time = timeit.default_timer() - self.__start
-        self.__instances[instance.size] = instance
-        self.__experimental[instance.size] = min(timestats)
+        self.__instances[size] = instance
+        self.__experimental[size] = min(timestats)
         self.__processed = False
 
     def chart(self):
@@ -62,7 +67,7 @@ class Metro:
             self.__ratio = {}
             for size, instance in self.__instances.items():
                 t_fn = self.__experimental[size]
-                self.__theoretical[size] = self.__complexity.fn(instance.size)
+                self.__theoretical[size] = instance.theoretical(self.__complexity)
                 self.__ratio[size] = t_fn / max(self.__theoretical[size], 0.1)
             self.__processed = True
 

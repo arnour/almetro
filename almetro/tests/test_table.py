@@ -6,11 +6,15 @@ from almetro import table
 from almetro.metro import Metro
 from almetro.complexity import Complexity
 from almetro.tests import TestBase, mock
+from almetro.instance import Instance
+
+instance = Instance(name='instance', value={}, size={'n': 'n'})
 
 
 class TestTable(TestBase):
 
     @mock.patch('almetro.complexity.Complexity.text', new_callable=mock.PropertyMock, return_value='cn')
+    @mock.patch('almetro.metro.Metro.instances', new_callable=mock.PropertyMock, return_value={1: instance, 2: instance, 3: instance})
     @mock.patch('almetro.metro.Metro.ratio', new_callable=mock.PropertyMock, return_value={1: 1, 2: 0.5, 3: 0.33})
     @mock.patch('almetro.metro.Metro.theoretical', new_callable=mock.PropertyMock, return_value={1: 1, 2: 4, 3: 9})
     @mock.patch('almetro.metro.Metro.experimental', new_callable=mock.PropertyMock, return_value={1: 1, 2: 2, 3: 3})
@@ -21,11 +25,11 @@ class TestTable(TestBase):
 
         tabulate_mock.assert_called_once_with(
             [
-                (1, 1, 1, 1),
-                (2, 2, 4, 0.5),
-                (3, 3, 9, 0.33)
+                ('instance n=n', 1, 1, 1),
+                ('instance n=n', 2, 4, 0.5),
+                ('instance n=n', 3, 9, 0.33)
             ],
-            headers=['n', 'experimental', 'theoretical cn', 'ratio'],
+            headers=['size', 'experimental', 'theoretical cn', 'ratio'],
             tablefmt='fancy_grid'
         )
 

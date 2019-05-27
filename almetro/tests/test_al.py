@@ -43,7 +43,7 @@ class TestAl(TestBase):
         algorithm_mock.assert_called_once()
         metro_mock.register.assert_called_once()
         m.assert_that(metro_mock.register.call_args[0][0].name, m.equal_to('growing'))
-        m.assert_that(metro_mock.register.call_args[0][0].size, m.equal_to(10))
+        m.assert_that(metro_mock.register.call_args[0][0].size, m.equal_to({'n': 10}))
         m.assert_that(metro_mock.register.call_args[0][0].value['instance'], m.has_length(10))
         m.assert_that(metro_mock.register.call_args[0][1], m.has_length(1))
         metro_factory_mock.assert_called_once_with(complexity_mock)
@@ -57,7 +57,7 @@ class TestAl(TestBase):
 
         def my_gen():
             for i in range(3):
-                yield {'name': 'instance_name', 'size': 3, 'value': {'instance': range(3)}}
+                yield {'name': 'instance_name', 'size': {'n': 3}, 'value': {'instance': range(3)}}
 
         metro = Al()\
             .with_instances(instances=3, provider=generator(my_gen()))\
@@ -72,7 +72,7 @@ class TestAl(TestBase):
 
         m.assert_that(metro_mock.register.mock_calls, m.has_length(3))
         for _, args, _ in metro_mock.register.mock_calls:
-            m.assert_that(args[0].size, m.equal_to(3))
+            m.assert_that(args[0].size, m.equal_to({'n': 3}))
             m.assert_that(args[0].value['instance'], m.equal_to(range(3)))
             m.assert_that(args[1], m.has_length(2))
 

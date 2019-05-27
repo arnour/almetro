@@ -14,9 +14,9 @@ class TestMetro(TestBase):
     def test_register_min_time_for_each_call(self):
         metro = Metro(cn)
         time.sleep(0.1)
-        metro.register(Instance(name='any', value=[], size=6), [45, 88, 17])
+        metro.register(Instance(name='any', value=[], size={'n': 6}), [45, 88, 17])
         time.sleep(0.1)
-        metro.register(Instance(name='any', value=[], size=7), [45, 88, 37, 22])
+        metro.register(Instance(name='any', value=[], size={'n': 7}), [45, 88, 37, 22])
         m.assert_that(metro.experimental, m.has_entries({6: 17, 7: 22}))
         m.assert_that(metro.elapsed_time, m.close_to(0.2, 0.05))
         m.assert_that(metro.processed, m.equal_to(False))
@@ -24,9 +24,9 @@ class TestMetro(TestBase):
     def test_should_process_experimental_data_for_metro(self):
         metro = Metro(cn)
 
-        metro.register(Instance(name='any', value=[], size=1), [1, 2, 3])
-        metro.register(Instance(name='any', value=[], size=2), [2, 3, 4])
-        metro.register(Instance(name='any', value=[], size=3), [3, 4, 5])
+        metro.register(Instance(name='any', value=[], size={'n': 1}), [1, 2, 3])
+        metro.register(Instance(name='any', value=[], size={'n': 2}), [2, 3, 4])
+        metro.register(Instance(name='any', value=[], size={'n': 3}), [3, 4, 5])
 
         metro.process()
 
