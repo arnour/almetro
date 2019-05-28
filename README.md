@@ -120,7 +120,7 @@ N = 50
 
 instances_generator = my_custom_instances(N)
 
-# Trials determine how many times each instance will be repeated for Almetro to pick the min time.
+# Trials determine how many times each instance will be repeated for Almetro to pick the min time. That way you can exclude some noise from your analisys.
 metro = almetro\
             .new()\
             .with_execution(trials=5)\
